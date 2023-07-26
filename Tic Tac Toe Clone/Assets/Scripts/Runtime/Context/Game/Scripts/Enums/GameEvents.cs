@@ -2,6 +2,8 @@
 {
   public enum GameEvents
   {
-    PlayClicked
+    PlayClicked,
+    Error,
+    PlayerRegisterMenuClosed
   }
 }

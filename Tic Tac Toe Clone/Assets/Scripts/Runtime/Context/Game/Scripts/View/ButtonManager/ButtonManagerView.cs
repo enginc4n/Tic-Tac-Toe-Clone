@@ -16,12 +16,12 @@ namespace Runtime.Context.Game.Scripts.View.ButtonManager
 
     public void OnPlayButtonClick()
     {
-      dispatcher.Dispatch(ButtonManagerEvent.Play);
+      dispatcher.Dispatch(ButtonManagerEvent.PlayClicked);
     }
 
     public void OnExitButtonClick()
     {
-      dispatcher.Dispatch(ButtonManagerEvent.Exit);
+      dispatcher.Dispatch(ButtonManagerEvent.ExitClicked);
     }
   }
 }

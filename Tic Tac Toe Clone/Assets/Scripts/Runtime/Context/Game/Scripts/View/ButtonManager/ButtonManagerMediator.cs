@@ -6,8 +6,8 @@ namespace Runtime.Context.Game.Scripts.View.ButtonManager
 {
   public enum ButtonManagerEvent
   {
-    Play,
-    Exit
+    PlayClicked,
+    ExitClicked
   }
 
   public class ButtonManagerMediator : EventMediator
@@ -17,8 +17,8 @@ namespace Runtime.Context.Game.Scripts.View.ButtonManager
 
     public override void OnRegister()
     {
-      view.dispatcher.AddListener(ButtonManagerEvent.Play, OnPlay);
-      view.dispatcher.AddListener(ButtonManagerEvent.Exit, OnExit);
+      view.dispatcher.AddListener(ButtonManagerEvent.PlayClicked, OnPlay);
+      view.dispatcher.AddListener(ButtonManagerEvent.ExitClicked, OnExit);
     }
 
     private void OnExit()
@@ -40,8 +40,8 @@ namespace Runtime.Context.Game.Scripts.View.ButtonManager
 
     public override void OnRemove()
     {
-      view.dispatcher.RemoveListener(ButtonManagerEvent.Play, OnPlay);
-      view.dispatcher.RemoveListener(ButtonManagerEvent.Exit, OnExit);
+      view.dispatcher.RemoveListener(ButtonManagerEvent.PlayClicked, OnPlay);
+      view.dispatcher.RemoveListener(ButtonManagerEvent.ExitClicked, OnExit);
     }
   }
 }

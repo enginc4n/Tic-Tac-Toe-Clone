@@ -27,19 +27,37 @@ namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
       view.dispatcher.AddListener(PlayerRegisterMenuEvents.PlayerTwoTeamTypeChanged, OnPlayerTwoTeamTypeChanged);
 
       dispatcher.AddListener(GameEvents.Error, OnError);
+      dispatcher.AddListener(GameEvents.PlayersReady, OnPlayersReady);
+      dispatcher.AddListener(GameEvents.MainMenuClosed, OnMainMenuClosed);
+      dispatcher.AddListener(FunctionEvents.ShufflePlayersTeamType, OnShufflePlayersTeamType);
+    }
+
+    private void OnShufflePlayersTeamType()
+    {
+      StartCoroutine(playerModel.ShufflePlayersTeamType());
+    }
+
+    private void OnMainMenuClosed()
+    {
+      view.TogglePlayerRegisterMenu(true);
+    }
+
+    private void OnPlayersReady()
+    {
+      view.TogglePlayerRegisterMenu(false);
     }
 
     private void OnPlayerTwoTeamTypeChanged(IEvent evt)
     {
       TeamType teamType = (TeamType)evt.data;
-
+      view.SetPlayerTwoButtons(teamType);
       playerModel.SetPlayerTwoTeamType(teamType);
     }
 
     private void OnPlayerOneTeamTypeChanged(IEvent evt)
     {
       TeamType teamType = (TeamType)evt.data;
-
+      view.SetPlayerOneButtons(teamType);
       playerModel.SetPlayerOneTeamType(teamType);
     }
 
@@ -47,17 +65,17 @@ namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
     {
       ErrorTypes error = (ErrorTypes)evt.data;
       ShowErrorLabel(error);
-      FixPlayerTeamTypes(error);
     }
 
     private void ShowErrorLabel(ErrorTypes error)
     {
       string errorMessage = string.Empty;
-
+      bool isCoroutineRunning = view.GetIsCoroutineRunning();
       switch (error)
       {
         case ErrorTypes.NoPlayerName:
           errorMessage = "Please enter a name for both players";
+
           break;
 
         case ErrorTypes.SamePlayerName:
@@ -65,48 +83,29 @@ namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
           break;
       }
 
-      bool isCoroutineRunning = view.GetIsCoroutineRunning();
-
       if (!isCoroutineRunning)
       {
         StartCoroutine(view.SetErrorLabel(errorMessage));
       }
     }
 
-    private void FixPlayerTeamTypes(ErrorTypes error)
-    {
-      switch (error)
-      {
-        case ErrorTypes.NoTeamType:
-          playerModel.FixPlayersTeamType();
-          break;
-        case ErrorTypes.SamePlayerTeamType:
-          StartCoroutine(playerModel.ShufflePlayersTeamType());
-          break;
-      }
-    }
-
     private void OnPlayerRegister()
-    {
-      SetPlayersNames();
-      playerModel.CheckPlayerTeamType();
-      view.DisablePlayerRegisterMenu();
-      dispatcher.Dispatch(GameEvents.PlayerRegisterMenuClosed);
-    }
-
-    private void SetPlayersNames()
     {
       string playerOneName = view.GetPlayerOneName();
       string playerTwoName = view.GetPlayerTwoName();
-
-      playerModel.SetPlayersNames(playerOneName, playerTwoName);
+      playerModel.RegisterPlayers(playerOneName, playerTwoName);
     }
 
     public override void OnRemove()
     {
       view.dispatcher.RemoveListener(PlayerRegisterMenuEvents.RegisterClicked, OnPlayerRegister);
+      view.dispatcher.RemoveListener(PlayerRegisterMenuEvents.PlayerOneTeamTypeChanged, OnPlayerOneTeamTypeChanged);
+      view.dispatcher.RemoveListener(PlayerRegisterMenuEvents.PlayerTwoTeamTypeChanged, OnPlayerTwoTeamTypeChanged);
 
       dispatcher.RemoveListener(GameEvents.Error, OnError);
+      dispatcher.RemoveListener(GameEvents.PlayersReady, OnPlayersReady);
+      dispatcher.RemoveListener(GameEvents.MainMenuClosed, OnMainMenuClosed);
+      dispatcher.RemoveListener(FunctionEvents.ShufflePlayersTeamType, OnShufflePlayersTeamType);
     }
   }
 }

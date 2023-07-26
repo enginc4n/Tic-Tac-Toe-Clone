@@ -3,6 +3,7 @@ using Runtime.Context.Game.Scripts.Enums;
 using strange.extensions.mediation.impl;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
 {
@@ -25,6 +26,19 @@ namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
 
     [SerializeField]
     private float errorLabelDuration = 2f;
+
+    [Header("Buttons")]
+    [SerializeField]
+    private Button playerOneCrossButton;
+
+    [SerializeField]
+    private Button playerOneCircleButton;
+
+    [SerializeField]
+    private Button playerTwoCrossButton;
+
+    [SerializeField]
+    private Button playerTwoCircleButton;
 
     private bool _isCoroutineRunning;
 
@@ -55,9 +69,23 @@ namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
       return _isCoroutineRunning;
     }
 
-    public void DisablePlayerRegisterMenu()
+    public void TogglePlayerRegisterMenu(bool isActive)
     {
-      container.SetActive(false);
+      container.SetActive(isActive);
+    }
+
+    public void SetPlayerTwoButtons(TeamType teamType)
+    {
+      bool isCross = teamType == TeamType.Cross;
+      playerTwoCrossButton.interactable = !isCross;
+      playerTwoCircleButton.interactable = isCross;
+    }
+
+    public void SetPlayerOneButtons(TeamType teamType)
+    {
+      bool isCross = teamType == TeamType.Cross;
+      playerOneCrossButton.interactable = !isCross;
+      playerOneCircleButton.interactable = isCross;
     }
 
     public void OnPlayerOneClickCross()

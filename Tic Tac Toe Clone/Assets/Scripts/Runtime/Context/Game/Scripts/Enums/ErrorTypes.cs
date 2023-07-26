@@ -4,7 +4,7 @@
   {
     NoPlayerName,
     SamePlayerName,
-    NoTeamType,
+    MissingTeamType,
     SamePlayerTeamType
   }
 }

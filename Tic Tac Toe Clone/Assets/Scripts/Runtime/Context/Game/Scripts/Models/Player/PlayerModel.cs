@@ -32,10 +32,23 @@ namespace Runtime.Context.Game.Scripts.Models.Player
       _playerTwoTeamType = TeamType.None;
     }
 
-    public void SetPlayersNames(string playerOneName, string playerTwoName)
+    public void RegisterPlayers(string playerOneName, string playerTwoName)
     {
-      playerOneName = playerOneName.Trim();
-      playerTwoName = playerTwoName.Trim();
+      SetPlayerNames(playerOneName, playerTwoName);
+      CheckPlayerTeamType();
+
+      bool isPlayerNamesCorrect = _playerOneName != string.Empty && _playerTwoName != string.Empty && _playerOneName != _playerTwoName;
+      bool isPlayerTeamTypeCorrect = _playerOneTeamType != TeamType.None && _playerTwoTeamType != TeamType.None && _playerOneTeamType != _playerTwoTeamType;
+      if (isPlayerNamesCorrect && isPlayerTeamTypeCorrect)
+      {
+        dispatcher.Dispatch(GameEvents.PlayersReady);
+      }
+    }
+
+    private void SetPlayerNames(string playerOneName, string playerTwoName)
+    {
+      playerOneName = playerOneName.Trim().ToLower();
+      playerTwoName = playerTwoName.Trim().ToLower();
 
       if (playerOneName == string.Empty || playerTwoName == string.Empty)
       {
@@ -64,11 +77,11 @@ namespace Runtime.Context.Game.Scripts.Models.Player
 
     public void FixPlayersTeamType()
     {
-      if (_playerOneTeamType == TeamType.None)
+      if (_playerOneTeamType == TeamType.None && _playerOneTeamType != TeamType.None)
       {
         _playerOneTeamType = _playerTwoTeamType == TeamType.Cross ? TeamType.Circle : TeamType.Cross;
       }
-      else if (_playerTwoTeamType == TeamType.None)
+      else if (_playerTwoTeamType == TeamType.None && _playerOneTeamType != TeamType.None)
       {
         _playerTwoTeamType = _playerOneTeamType == TeamType.Cross ? TeamType.Circle : TeamType.Cross;
       }
@@ -81,25 +94,44 @@ namespace Runtime.Context.Game.Scripts.Models.Player
       {
         _playerOneTeamType = Random.Range(0, 2) == 0 ? TeamType.Cross : TeamType.Circle;
         _playerTwoTeamType = Random.Range(0, 2) == 0 ? TeamType.Cross : TeamType.Circle;
+        isPlayersTeamTypeSame = _playerOneTeamType == _playerTwoTeamType;
         yield return new WaitForEndOfFrame();
       }
     }
 
-    public void CheckPlayerTeamType()
+    private void CheckPlayerTeamType()
     {
       bool isPlayersTeamTypeSame = _playerOneTeamType == _playerTwoTeamType;
+      bool isPlayerTeamTypeMissing = _playerOneTeamType == TeamType.None || _playerTwoTeamType == TeamType.None;
+
       if (isPlayersTeamTypeSame)
       {
         dispatcher.Dispatch(GameEvents.Error, ErrorTypes.SamePlayerTeamType);
-        return;
       }
-
-      bool isPlayersTeamTypeEmpty = _playerOneTeamType == TeamType.None || _playerTwoTeamType == TeamType.None;
-      if (isPlayersTeamTypeEmpty)
+      else if (isPlayerTeamTypeMissing)
       {
-        dispatcher.Dispatch(GameEvents.Error, ErrorTypes.NoTeamType);
-        return;
+        dispatcher.Dispatch(GameEvents.Error, ErrorTypes.MissingTeamType);
       }
+    }
+
+    public string GetPlayerOneName()
+    {
+      return _playerOneName;
+    }
+
+    public string GetPlayerTwoName()
+    {
+      return _playerTwoName;
+    }
+
+    public TeamType GetPlayerOneTeamType()
+    {
+      return _playerOneTeamType;
+    }
+
+    public TeamType GetPlayerTwoTeamType()
+    {
+      return _playerTwoTeamType;
     }
   }
 }

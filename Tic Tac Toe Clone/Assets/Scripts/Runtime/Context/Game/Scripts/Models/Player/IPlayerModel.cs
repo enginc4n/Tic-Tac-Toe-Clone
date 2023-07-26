@@ -5,16 +5,22 @@ namespace Runtime.Context.Game.Scripts.Models.Player
 {
   public interface IPlayerModel
   {
-    void SetPlayersNames(string playerOneName, string playerTwoName);
+    void RegisterPlayers(string playerOneName, string playerTwoName);
 
     void SetPlayerOneTeamType(TeamType teamType);
 
     void SetPlayerTwoTeamType(TeamType teamType);
 
-    void CheckPlayerTeamType();
-
     IEnumerator ShufflePlayersTeamType();
 
     void FixPlayersTeamType();
+
+    string GetPlayerTwoName();
+
+    string GetPlayerOneName();
+
+    TeamType GetPlayerOneTeamType();
+
+    TeamType GetPlayerTwoTeamType();
   }
 }

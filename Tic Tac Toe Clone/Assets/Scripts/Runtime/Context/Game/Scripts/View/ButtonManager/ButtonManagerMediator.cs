@@ -1,12 +1,10 @@
-﻿using Runtime.Context.Game.Scripts.Enums;
-using strange.extensions.mediation.impl;
+﻿using strange.extensions.mediation.impl;
 using UnityEngine;
 
 namespace Runtime.Context.Game.Scripts.View.ButtonManager
 {
   public enum ButtonManagerEvent
   {
-    PlayClicked,
     ExitClicked
   }
 
@@ -17,7 +15,6 @@ namespace Runtime.Context.Game.Scripts.View.ButtonManager
 
     public override void OnRegister()
     {
-      view.dispatcher.AddListener(ButtonManagerEvent.PlayClicked, OnPlay);
       view.dispatcher.AddListener(ButtonManagerEvent.ExitClicked, OnExit);
     }
 
@@ -32,15 +29,8 @@ namespace Runtime.Context.Game.Scripts.View.ButtonManager
 #endif
     }
 
-    private void OnPlay()
-    {
-      view.DisableMainMenuPanel();
-      dispatcher.Dispatch(GameEvents.PlayClicked);
-    }
-
     public override void OnRemove()
     {
-      view.dispatcher.RemoveListener(ButtonManagerEvent.PlayClicked, OnPlay);
       view.dispatcher.RemoveListener(ButtonManagerEvent.ExitClicked, OnExit);
     }
   }

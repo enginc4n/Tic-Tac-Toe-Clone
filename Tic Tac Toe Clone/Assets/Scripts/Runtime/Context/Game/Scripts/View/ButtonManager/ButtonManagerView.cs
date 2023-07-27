@@ -1,11 +1,25 @@
-﻿using Runtime.Context.Game.Scripts.Enums;
-using strange.extensions.mediation.impl;
+﻿using strange.extensions.mediation.impl;
+using UnityEngine;
 
 namespace Runtime.Context.Game.Scripts.View.ButtonManager
 {
   public class ButtonManagerView : EventView
   {
-    public void OnExitButtonClick()
+    [Header("Confirmation Menu")]
+    [SerializeField]
+    private GameObject confirmationMenu;
+
+    public void ShowConfirmationMenu()
+    {
+      confirmationMenu.SetActive(true);
+    }
+
+    public void HideConfirmationMenu()
+    {
+      confirmationMenu.SetActive(false);
+    }
+
+    public void OnExitClicked()
     {
       dispatcher.Dispatch(ButtonManagerEvent.ExitClicked);
     }

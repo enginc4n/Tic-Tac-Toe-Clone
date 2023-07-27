@@ -59,9 +59,9 @@ namespace Runtime.Context.Game.Scripts.View.Cell
       cellButton.interactable = interactable;
     }
 
-    public void OnCellClicked()
+    public void OnCellClicked(string key)
     {
-      dispatcher.Dispatch(CellEvent.CellClicked);
+      dispatcher.Dispatch(CellEvent.CellClicked, key);
     }
   }
 }

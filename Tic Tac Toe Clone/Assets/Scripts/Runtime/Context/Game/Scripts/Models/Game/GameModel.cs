@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using Runtime.Context.Game.Scripts.Enums;
-using Scripts.Runtime.Modules.Core.PromiseTool;
 using strange.extensions.context.api;
 using strange.extensions.dispatcher.eventdispatcher.api;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Runtime.Context.Game.Scripts.Models.Game
 {
@@ -14,11 +10,10 @@ namespace Runtime.Context.Game.Scripts.Models.Game
     [Inject(ContextKeys.CONTEXT_DISPATCHER)]
     public IEventDispatcher dispatcher { get; set; }
 
-    private const string CellPrefabAddressable = "Cell";
+    public int turn { get; set; } = 0;
+    public bool isGameFinished { get; set; }
 
     private Dictionary<string, TeamType> _cellMap;
-
-    public int turn { get; set; }
 
     [PostConstruct]
     public void OnPostConstruct()
@@ -28,48 +23,44 @@ namespace Runtime.Context.Game.Scripts.Models.Game
 
     private void Init()
     {
-      turn = 0;
-      _cellMap = new Dictionary<string, TeamType>();
+      CreateCellMap();
     }
 
-    public void CreateGameBoard(Transform parentTransform)
+    private void CreateCellMap()
     {
+      _cellMap = new Dictionary<string, TeamType>();
       for (int i = 0; i < 3; i++)
       {
         for (int j = 0; j < 3; j++)
         {
-          _cellMap.Add($"{i}{j}", TeamType.None);
-          SpawnObjects(parentTransform);
+          _cellMap.Add($"{i},{j}", TeamType.None);
         }
       }
     }
 
-    private IPromise SpawnObjects(Transform parentTransform)
+    public void SetCell(string key, TeamType teamType)
     {
-      Promise promise = new();
-      AsyncOperationHandle<GameObject> asyncOperationHandle = Addressables.InstantiateAsync(CellPrefabAddressable, parentTransform);
-      asyncOperationHandle.Completed += handle =>
+      if (_cellMap.ContainsKey(key))
       {
-        if (handle.Status == AsyncOperationStatus.Succeeded)
-        {
-          promise.Resolve();
-        }
-        else
-        {
-          promise.Reject(handle.OperationException);
-        }
-      };
-      return promise;
+        _cellMap[key] = teamType;
+      }
     }
 
-    public void GameBoardChange()
+    public TeamType GetCellValueByKey(string key)
     {
-      dispatcher.Dispatch(GameEvents.GameBoardChanged);
+      if (_cellMap.ContainsKey(key))
+      {
+        return _cellMap[key];
+      }
+
+      return TeamType.None;
     }
 
-    public void SetCellMap(string cellName, TeamType teamType)
+    public void ResetGame()
     {
-      _cellMap[cellName] = teamType;
+      turn = 0;
+      isGameFinished = false;
+      CreateCellMap();
     }
   }
 }

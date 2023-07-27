@@ -22,5 +22,7 @@ namespace Runtime.Context.Game.Scripts.Models.Player
     TeamType GetPlayerOneTeamType();
 
     TeamType GetPlayerTwoTeamType();
+
+    void ResetPlayers();
   }
 }

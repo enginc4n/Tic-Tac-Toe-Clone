@@ -5,6 +5,9 @@
     Error,
     MainMenuClosed,
     PlayersReady,
-    GameBoardChanged
+    GameBoardChanged,
+    PlayerWins,
+    Draw,
+    GameReset
   }
 }

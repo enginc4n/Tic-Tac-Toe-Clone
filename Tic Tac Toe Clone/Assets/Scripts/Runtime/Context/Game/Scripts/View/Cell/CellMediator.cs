@@ -1,6 +1,7 @@
 ﻿using Runtime.Context.Game.Scripts.Enums;
 using Runtime.Context.Game.Scripts.Models.Game;
 using Runtime.Context.Game.Scripts.Models.Player;
+using strange.extensions.dispatcher.eventdispatcher.api;
 using strange.extensions.mediation.impl;
 
 namespace Runtime.Context.Game.Scripts.View.Cell
@@ -24,9 +25,17 @@ namespace Runtime.Context.Game.Scripts.View.Cell
     public override void OnRegister()
     {
       view.dispatcher.AddListener(CellEvent.CellClicked, OnCellClicked);
+
+      dispatcher.AddListener(GameEvents.PlayerWins, OnGameEnded);
+      dispatcher.AddListener(GameEvents.Draw, OnGameEnded);
     }
 
-    private void OnCellClicked()
+    private void OnGameEnded(IEvent payload)
+    {
+      view.SetCellInteractable(false);
+    }
+
+    private void OnCellClicked(IEvent evt)
     {
       TeamType playerOneTeamType = playerModel.GetPlayerOneTeamType();
       TeamType playerTwoTeamType = playerModel.GetPlayerTwoTeamType();
@@ -35,12 +44,16 @@ namespace Runtime.Context.Game.Scripts.View.Cell
 
       view.SetCellInteractable(false);
 
-      gameModel.GameBoardChange();
+      string key = evt.data as string;
+      dispatcher.Dispatch(GameEvents.GameBoardChanged, key);
     }
 
     public override void OnRemove()
     {
       view.dispatcher.RemoveListener(CellEvent.CellClicked, OnCellClicked);
+
+      dispatcher.RemoveListener(GameEvents.PlayerWins, OnGameEnded);
+      dispatcher.RemoveListener(GameEvents.Draw, OnGameEnded);
     }
   }
 }

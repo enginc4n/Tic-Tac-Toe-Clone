@@ -77,11 +77,13 @@ namespace Runtime.Context.Game.Scripts.Models.Player
 
     public void FixPlayersTeamType()
     {
-      if (_playerOneTeamType == TeamType.None && _playerOneTeamType != TeamType.None)
+      bool isPlayerOneTeamTypeMissing = _playerOneTeamType == TeamType.None && _playerTwoTeamType != TeamType.None;
+      bool isPlayerTwoTeamTypeMissing = _playerTwoTeamType == TeamType.None && _playerOneTeamType != TeamType.None;
+      if (isPlayerOneTeamTypeMissing)
       {
         _playerOneTeamType = _playerTwoTeamType == TeamType.Cross ? TeamType.Circle : TeamType.Cross;
       }
-      else if (_playerTwoTeamType == TeamType.None && _playerOneTeamType != TeamType.None)
+      else if (isPlayerTwoTeamTypeMissing)
       {
         _playerTwoTeamType = _playerOneTeamType == TeamType.Cross ? TeamType.Circle : TeamType.Cross;
       }
@@ -132,6 +134,15 @@ namespace Runtime.Context.Game.Scripts.Models.Player
     public TeamType GetPlayerTwoTeamType()
     {
       return _playerTwoTeamType;
+    }
+
+    public void ResetPlayers()
+    {
+      _playerOneName = string.Empty;
+      _playerTwoName = string.Empty;
+
+      _playerOneTeamType = TeamType.None;
+      _playerTwoTeamType = TeamType.None;
     }
   }
 }

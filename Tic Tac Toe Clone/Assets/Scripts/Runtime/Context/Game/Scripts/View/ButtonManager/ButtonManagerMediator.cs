@@ -1,11 +1,13 @@
-﻿using strange.extensions.mediation.impl;
+﻿using Runtime.Context.Game.Scripts.Enums;
+using strange.extensions.mediation.impl;
 using UnityEngine;
 
 namespace Runtime.Context.Game.Scripts.View.ButtonManager
 {
   public enum ButtonManagerEvent
   {
-    ExitClicked
+    ExitClicked,
+    ResetClicked
   }
 
   public class ButtonManagerMediator : EventMediator
@@ -15,10 +17,16 @@ namespace Runtime.Context.Game.Scripts.View.ButtonManager
 
     public override void OnRegister()
     {
-      view.dispatcher.AddListener(ButtonManagerEvent.ExitClicked, OnExit);
+      view.dispatcher.AddListener(ButtonManagerEvent.ExitClicked, OnExitClicked);
+      view.dispatcher.AddListener(ButtonManagerEvent.ResetClicked, OnResetClicked);
     }
 
-    private void OnExit()
+    private void OnResetClicked()
+    {
+      dispatcher.Dispatch(GameEvents.GameReset);
+    }
+
+    private void OnExitClicked()
     {
 #if UNITY_STANDALONE
       Application.Quit();
@@ -31,7 +39,8 @@ namespace Runtime.Context.Game.Scripts.View.ButtonManager
 
     public override void OnRemove()
     {
-      view.dispatcher.RemoveListener(ButtonManagerEvent.ExitClicked, OnExit);
+      view.dispatcher.RemoveListener(ButtonManagerEvent.ExitClicked, OnExitClicked);
+      view.dispatcher.RemoveListener(ButtonManagerEvent.ResetClicked, OnResetClicked);
     }
   }
 }

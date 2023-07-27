@@ -51,23 +51,13 @@ namespace Runtime.Context.Game.Scripts.View.GameMenu
 
     private void ShowPlayerTeamTypes(TeamType playerOneTeamType, TeamType playerTwoTeamType)
     {
-      if (playerOneTeamType == TeamType.Cross)
-      {
-        playerOneCrossButton.SetActive(true);
-      }
-      else
-      {
-        playerOneCircleButton.SetActive(true);
-      }
+      bool isPlayerOneCross = playerOneTeamType == TeamType.Cross;
+      playerOneCrossButton.SetActive(isPlayerOneCross);
+      playerOneCircleButton.SetActive(!isPlayerOneCross);
 
-      if (playerTwoTeamType == TeamType.Cross)
-      {
-        playerTwoCrossButton.SetActive(true);
-      }
-      else
-      {
-        playerTwoCircleButton.SetActive(true);
-      }
+      bool isPlayerTwoCross = playerTwoTeamType == TeamType.Cross;
+      playerTwoCrossButton.SetActive(isPlayerTwoCross);
+      playerTwoCircleButton.SetActive(!isPlayerTwoCross);
     }
 
     public void SetGameMenu(string playerOneName, string playerTwoName, TeamType playerOneTeamType, TeamType playerTwoTeamType)

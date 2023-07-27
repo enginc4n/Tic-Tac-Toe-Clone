@@ -29,7 +29,13 @@ namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
       dispatcher.AddListener(GameEvents.Error, OnError);
       dispatcher.AddListener(GameEvents.PlayersReady, OnPlayersReady);
       dispatcher.AddListener(GameEvents.MainMenuClosed, OnMainMenuClosed);
-      dispatcher.AddListener(FunctionEvents.ShufflePlayersTeamType, OnShufflePlayersTeamType);
+      dispatcher.AddListener(FunctionEvents.ShufflePlayersTeamType, OnShufflePlayersTeamType); //NASIL YAPACAĞIMI BİLEMEDİM COMMANDA ONDAN BÖLE YAZDIM.
+      dispatcher.AddListener(GameEvents.GameReset, OnGameReset);
+    }
+
+    private void OnGameReset()
+    {
+      view.TogglePlayerRegisterMenu(true);
     }
 
     private void OnShufflePlayersTeamType()
@@ -87,6 +93,7 @@ namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
       dispatcher.RemoveListener(GameEvents.PlayersReady, OnPlayersReady);
       dispatcher.RemoveListener(GameEvents.MainMenuClosed, OnMainMenuClosed);
       dispatcher.RemoveListener(FunctionEvents.ShufflePlayersTeamType, OnShufflePlayersTeamType);
+      dispatcher.RemoveListener(GameEvents.GameReset, OnGameReset);
     }
   }
 }

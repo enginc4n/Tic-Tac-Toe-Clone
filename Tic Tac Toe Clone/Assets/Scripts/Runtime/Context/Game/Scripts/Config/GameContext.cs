@@ -39,7 +39,9 @@ namespace Runtime.Context.Game.Scripts.Config
       commandBinder.Bind(GameEvents.GameBoardChanged)
         .To<GameBoardChangedCommand>();
       commandBinder.Bind(GameEvents.Error)
-        .To<ErrorCommand>();
+        .To<TeamTypeErrorCommand>();
+      commandBinder.Bind(GameEvents.GameReset)
+        .To<ResetGameCommand>();
     }
   }
 }

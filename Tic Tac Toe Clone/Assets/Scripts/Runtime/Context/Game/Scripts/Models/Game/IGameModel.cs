@@ -1,5 +1,4 @@
 ﻿using Runtime.Context.Game.Scripts.Enums;
-using UnityEngine;
 
 namespace Runtime.Context.Game.Scripts.Models.Game
 {
@@ -7,10 +6,12 @@ namespace Runtime.Context.Game.Scripts.Models.Game
   {
     int turn { get; set; }
 
-    void CreateGameBoard(Transform parentTransform);
+    public bool isGameFinished { get; set; }
 
-    void GameBoardChange();
+    void SetCell(string key, TeamType teamType);
 
-    void SetCellMap(string cellName, TeamType teamType);
+    TeamType GetCellValueByKey(string key);
+
+    void ResetGame();
   }
 }

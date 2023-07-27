@@ -4,7 +4,7 @@ using strange.extensions.command.impl;
 
 namespace Runtime.Context.Game.Scripts.Commands
 {
-  public class ErrorCommand : EventCommand
+  public class TeamTypeErrorCommand : EventCommand
   {
     [Inject]
     public IPlayerModel playerModel { get; set; }

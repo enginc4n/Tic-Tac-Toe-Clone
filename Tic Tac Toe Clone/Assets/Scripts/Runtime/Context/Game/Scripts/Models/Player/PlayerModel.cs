@@ -47,14 +47,14 @@ namespace Runtime.Context.Game.Scripts.Models.Player
 
     private void SetPlayerNames(string playerOneName, string playerTwoName)
     {
-      playerOneName = playerOneName.Trim().ToLower();
-      playerTwoName = playerTwoName.Trim().ToLower();
+      string playerOneNameTrimmed = playerOneName.Trim().ToLower();
+      string playerTwoNameTrimmed = playerTwoName.Trim().ToLower();
 
-      if (playerOneName == string.Empty || playerTwoName == string.Empty)
+      if (playerOneNameTrimmed == string.Empty || playerTwoNameTrimmed == string.Empty)
       {
         dispatcher.Dispatch(GameEvents.Error, ErrorTypes.NoPlayerName);
       }
-      else if (playerOneName == playerTwoName)
+      else if (playerOneNameTrimmed == playerTwoNameTrimmed)
       {
         dispatcher.Dispatch(GameEvents.Error, ErrorTypes.SamePlayerName);
       }

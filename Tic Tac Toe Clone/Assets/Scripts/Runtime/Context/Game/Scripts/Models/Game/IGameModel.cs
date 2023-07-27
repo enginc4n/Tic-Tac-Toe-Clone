@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Runtime.Context.Game.Scripts.Enums;
+using UnityEngine;
 
 namespace Runtime.Context.Game.Scripts.Models.Game
 {
@@ -9,5 +10,7 @@ namespace Runtime.Context.Game.Scripts.Models.Game
     void CreateGameBoard(Transform parentTransform);
 
     void GameBoardChange();
+
+    void SetCellMap(string cellName, TeamType teamType);
   }
 }

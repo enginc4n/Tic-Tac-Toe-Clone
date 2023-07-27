@@ -40,7 +40,7 @@ namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
     [SerializeField]
     private Button playerTwoCircleButton;
 
-    private bool _isCoroutineRunning;
+    public bool isCoroutineRunning { get; private set; }
 
     public string GetPlayerOneName()
     {
@@ -52,21 +52,26 @@ namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
       return playerTwoNameInputField.text;
     }
 
-    public IEnumerator SetErrorLabel(string error)
+    public IEnumerator SetErrorLabel(ErrorTypes error)
     {
-      _isCoroutineRunning = true;
+      isCoroutineRunning = true;
+      string errorMessage = string.Empty;
+      switch (error)
+      {
+        case ErrorTypes.NoPlayerName:
+          errorMessage = "Please enter a name for both players";
+          break;
+
+        case ErrorTypes.SamePlayerName:
+          errorMessage = "Please enter different names for both players";
+          break;
+      }
+
       errorLabel.gameObject.SetActive(true);
-      errorLabel.text = error;
-
+      errorLabel.text = errorMessage;
       yield return new WaitForSeconds(errorLabelDuration);
-
       errorLabel.gameObject.SetActive(false);
-      _isCoroutineRunning = false;
-    }
-
-    public bool GetIsCoroutineRunning()
-    {
-      return _isCoroutineRunning;
+      isCoroutineRunning = false;
     }
 
     public void TogglePlayerRegisterMenu(bool isActive)
@@ -74,14 +79,14 @@ namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
       container.SetActive(isActive);
     }
 
-    public void SetPlayerTwoButtons(TeamType teamType)
+    public void SetPlayerTwoButtonsInteractable(TeamType teamType)
     {
       bool isCross = teamType == TeamType.Cross;
       playerTwoCrossButton.interactable = !isCross;
       playerTwoCircleButton.interactable = isCross;
     }
 
-    public void SetPlayerOneButtons(TeamType teamType)
+    public void SetPlayerOneButtonsInteractable(TeamType teamType)
     {
       bool isCross = teamType == TeamType.Cross;
       playerOneCrossButton.interactable = !isCross;

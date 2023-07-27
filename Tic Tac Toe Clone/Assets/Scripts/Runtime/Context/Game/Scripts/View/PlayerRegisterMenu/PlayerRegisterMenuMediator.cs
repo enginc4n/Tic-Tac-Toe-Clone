@@ -50,42 +50,23 @@ namespace Runtime.Context.Game.Scripts.View.PlayerRegisterMenu
     private void OnPlayerTwoTeamTypeChanged(IEvent evt)
     {
       TeamType teamType = (TeamType)evt.data;
-      view.SetPlayerTwoButtons(teamType);
+      view.SetPlayerTwoButtonsInteractable(teamType);
       playerModel.SetPlayerTwoTeamType(teamType);
     }
 
     private void OnPlayerOneTeamTypeChanged(IEvent evt)
     {
       TeamType teamType = (TeamType)evt.data;
-      view.SetPlayerOneButtons(teamType);
+      view.SetPlayerOneButtonsInteractable(teamType);
       playerModel.SetPlayerOneTeamType(teamType);
     }
 
     private void OnError(IEvent evt)
     {
       ErrorTypes error = (ErrorTypes)evt.data;
-      ShowErrorLabel(error);
-    }
-
-    private void ShowErrorLabel(ErrorTypes error)
-    {
-      string errorMessage = string.Empty;
-      bool isCoroutineRunning = view.GetIsCoroutineRunning();
-      switch (error)
+      if (!view.isCoroutineRunning)
       {
-        case ErrorTypes.NoPlayerName:
-          errorMessage = "Please enter a name for both players";
-
-          break;
-
-        case ErrorTypes.SamePlayerName:
-          errorMessage = "Please enter different names for both players";
-          break;
-      }
-
-      if (!isCoroutineRunning)
-      {
-        StartCoroutine(view.SetErrorLabel(errorMessage));
+        StartCoroutine(view.SetErrorLabel(error));
       }
     }
 

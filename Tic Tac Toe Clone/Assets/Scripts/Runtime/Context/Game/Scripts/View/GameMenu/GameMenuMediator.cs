@@ -52,6 +52,7 @@ namespace Runtime.Context.Game.Scripts.View.GameMenu
     public override void OnRemove()
     {
       dispatcher.RemoveListener(GameEvents.PlayersReady, OnPlayersReady);
+      dispatcher.RemoveListener(GameEvents.GameBoardChanged, OnGameBoardChanged);
     }
   }
 }

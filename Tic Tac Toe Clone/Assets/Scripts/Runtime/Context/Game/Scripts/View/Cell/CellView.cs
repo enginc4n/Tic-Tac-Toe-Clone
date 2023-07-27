@@ -1,4 +1,5 @@
-﻿using strange.extensions.mediation.impl;
+﻿using Runtime.Context.Game.Scripts.Enums;
+using strange.extensions.mediation.impl;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,19 +15,48 @@ namespace Runtime.Context.Game.Scripts.View.Cell
     [SerializeField]
     private Button cellButton;
 
-    public void SetCellLabel(string label)
+    public void SetCellLabel(int turn, TeamType playerOneTeamType, TeamType playerTwoTeamType)
     {
-      cellLabel.text = label;
+      bool isPlayerOneTurn = turn % 2 == 0;
+      if (isPlayerOneTurn)
+      {
+        cellLabel.color = Color.red;
+        ProcessPlayerOneTurn(playerOneTeamType);
+      }
+      else
+      {
+        cellLabel.color = Color.black;
+        ProcessPlayerTwoTurn(playerTwoTeamType);
+      }
+    }
+
+    private void ProcessPlayerOneTurn(TeamType playerOneTeamType)
+    {
+      if (playerOneTeamType == TeamType.Cross)
+      {
+        cellLabel.text = "X";
+      }
+      else
+      {
+        cellLabel.text = "O";
+      }
+    }
+
+    private void ProcessPlayerTwoTurn(TeamType playerTwoTeamType)
+    {
+      if (playerTwoTeamType == TeamType.Cross)
+      {
+        cellLabel.text = "X";
+      }
+      else
+      {
+        cellLabel.text = "O";
+      }
     }
 
     public void SetCellInteractable(bool interactable)
     {
       cellButton.interactable = interactable;
-    }
-
-    public void SetCellLabelColor(Color color)
-    {
-      cellLabel.color = color;
     }
 
     public void OnCellClicked()

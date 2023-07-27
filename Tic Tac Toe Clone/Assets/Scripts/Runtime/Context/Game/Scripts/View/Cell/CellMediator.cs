@@ -1,4 +1,5 @@
-﻿using Runtime.Context.Game.Scripts.Models.Game;
+﻿using Runtime.Context.Game.Scripts.Enums;
+using Runtime.Context.Game.Scripts.Models.Game;
 using Runtime.Context.Game.Scripts.Models.Player;
 using strange.extensions.mediation.impl;
 
@@ -27,8 +28,14 @@ namespace Runtime.Context.Game.Scripts.View.Cell
 
     private void OnCellClicked()
     {
-      gameModel.GameBoardChange();
+      TeamType playerOneTeamType = playerModel.GetPlayerOneTeamType();
+      TeamType playerTwoTeamType = playerModel.GetPlayerTwoTeamType();
+      int turn = gameModel.turn;
+      view.SetCellLabel(turn, playerOneTeamType, playerTwoTeamType);
+
       view.SetCellInteractable(false);
+
+      gameModel.GameBoardChange();
     }
 
     public override void OnRemove()

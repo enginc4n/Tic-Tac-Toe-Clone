@@ -14,10 +14,16 @@ namespace Runtime.Context.Game.Scripts.Commands
 
     public override void Execute()
     {
+      GameBoardChange();
     }
 
     private void CheckGameStatus()
     {
+    }
+
+    private void GameBoardChange()
+    {
+      gameModel.turn++;
     }
   }
 }

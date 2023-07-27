@@ -64,8 +64,12 @@ namespace Runtime.Context.Game.Scripts.Models.Game
 
     public void GameBoardChange()
     {
-      turn++;
       dispatcher.Dispatch(GameEvents.GameBoardChanged);
+    }
+
+    public void SetCellMap(string cellName, TeamType teamType)
+    {
+      _cellMap[cellName] = teamType;
     }
   }
 }

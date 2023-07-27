@@ -6429,7 +6429,7 @@ MonoBehaviour:
   playerOneNameInputField: {fileID: 1318181658}
   playerTwoNameInputField: {fileID: 2131326693}
   errorLabel: {fileID: 685223645}
-  errorLabelDuration: 2
+  errorLabelDuration: 3
   playerOneCrossButton: {fileID: 2008111439}
   playerOneCircleButton: {fileID: 1317813890}
   playerTwoCrossButton: {fileID: 235380266}

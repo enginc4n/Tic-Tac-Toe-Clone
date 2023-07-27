@@ -28,6 +28,13 @@ namespace Runtime.Context.Game.Scripts.View.Cell
 
       dispatcher.AddListener(GameEvents.PlayerWins, OnGameEnded);
       dispatcher.AddListener(GameEvents.Draw, OnGameEnded);
+      dispatcher.AddListener(GameEvents.GameReset, OnGameReset);
+    }
+
+    private void OnGameReset()
+    {
+      view.SetCellInteractable(true);
+      view.ResetCell();
     }
 
     private void OnGameEnded(IEvent payload)

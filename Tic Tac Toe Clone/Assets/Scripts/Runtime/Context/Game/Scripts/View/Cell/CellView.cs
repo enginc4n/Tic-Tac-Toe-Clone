@@ -58,6 +58,11 @@ namespace Runtime.Context.Game.Scripts.View.Cell
     {
       cellButton.interactable = interactable;
     }
+    
+    public void ResetCell()
+    {
+      cellLabel.text = string.Empty;
+    }
 
     public void OnCellClicked(string key)
     {

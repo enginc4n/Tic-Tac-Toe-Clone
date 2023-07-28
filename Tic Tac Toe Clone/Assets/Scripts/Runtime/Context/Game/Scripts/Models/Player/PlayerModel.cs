@@ -17,6 +17,8 @@ namespace Runtime.Context.Game.Scripts.Models.Player
     private TeamType _playerOneTeamType;
     private TeamType _playerTwoTeamType;
 
+    private bool _isPlayersNamesSame;
+
     [PostConstruct]
     public void OnPostConstruct()
     {
@@ -47,21 +49,26 @@ namespace Runtime.Context.Game.Scripts.Models.Player
 
     private void SetPlayerNames(string playerOneName, string playerTwoName)
     {
-      string playerOneNameTrimmed = playerOneName.Trim().ToLower();
-      string playerTwoNameTrimmed = playerTwoName.Trim().ToLower();
+      string alteredPlayerOneName = playerOneName.Trim().ToLower();
+      string alteredPlayerTwoName = playerTwoName.Trim().ToLower();
 
-      if (playerOneNameTrimmed == string.Empty || playerTwoNameTrimmed == string.Empty)
+      bool isAlteredPlayerNameEmpty = alteredPlayerOneName == string.Empty || alteredPlayerTwoName == string.Empty;
+      bool isAlteredPlayerNameSame = alteredPlayerOneName == alteredPlayerTwoName;
+
+      if (isAlteredPlayerNameEmpty)
       {
         dispatcher.Dispatch(GameEvents.Error, ErrorTypes.NoPlayerName);
       }
-      else if (playerOneNameTrimmed == playerTwoNameTrimmed)
+      else if (isAlteredPlayerNameSame)
       {
+        _isPlayersNamesSame = true;
         dispatcher.Dispatch(GameEvents.Error, ErrorTypes.SamePlayerName);
       }
       else
       {
         _playerOneName = playerOneName;
         _playerTwoName = playerTwoName;
+        _isPlayersNamesSame = false;
       }
     }
 
@@ -96,15 +103,26 @@ namespace Runtime.Context.Game.Scripts.Models.Player
       {
         _playerOneTeamType = Random.Range(0, 2) == 0 ? TeamType.Cross : TeamType.Circle;
         _playerTwoTeamType = Random.Range(0, 2) == 0 ? TeamType.Cross : TeamType.Circle;
-        isPlayersTeamTypeSame = _playerOneTeamType == _playerTwoTeamType;
         yield return new WaitForEndOfFrame();
+        isPlayersTeamTypeSame = _playerOneTeamType == _playerTwoTeamType;
       }
+
+      Debug.Log("ShufflePlayersTeamType");
     }
 
     private void CheckPlayerTeamType()
     {
+      bool isPlayerNamesEmpty = _playerOneName == string.Empty || _playerTwoName == string.Empty;
+      if (isPlayerNamesEmpty || _isPlayersNamesSame)
+      {
+        return;
+      }
+
       bool isPlayersTeamTypeSame = _playerOneTeamType == _playerTwoTeamType;
-      bool isPlayerTeamTypeMissing = _playerOneTeamType == TeamType.None || _playerTwoTeamType == TeamType.None;
+
+      bool isPlayerOneTeamTypeMissing = _playerOneTeamType == TeamType.None && _playerTwoTeamType != TeamType.None;
+      bool isPlayerTwoTeamTypeMissing = _playerTwoTeamType == TeamType.None && _playerOneTeamType != TeamType.None;
+      bool isPlayerTeamTypeMissing = isPlayerOneTeamTypeMissing || isPlayerTwoTeamTypeMissing;
 
       if (isPlayersTeamTypeSame)
       {

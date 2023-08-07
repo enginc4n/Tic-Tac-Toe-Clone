@@ -1,7 +1,8 @@
 ***Tic-Tac-Toe***
 
 
-![giphy](https://github.com/enginc4n/Tic-Tac-Toe/assets/76838257/1b21d2d7-719f-4868-b4ac-32debd08b9a9)
+![200](https://github.com/enginc4n/Tic-Tac-Toe-Clone/assets/76838257/7ee02a68-8862-4bb0-9323-60dd8bff7e78)
+
 
 
 ## ***Appendix***

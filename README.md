@@ -9,7 +9,7 @@
 
  It's a unity project to learn Adressables, StrangeIoC, and Promises. It is a classical game. The main idea of the game try to make three matches by using your decided shape.
 
- *(the link is in the My Links area and links are clickable)*
+ *(the link is in the My Links area are clickable)*
 
 
 

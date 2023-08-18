@@ -24,7 +24,7 @@ namespace Runtime.Context.Game.Scripts.Commands
 
     private void CheckDraw()
     {
-      bool isGameDraw = gameModel.turn >= 10 && !IsPlayerWin(playerModel.GetPlayerOneTeamType()) && !IsPlayerWin(playerModel.GetPlayerTwoTeamType());
+      bool isGameDraw = gameModel.turn >= 8 && !IsPlayerWin(playerModel.GetPlayerOneTeamType()) && !IsPlayerWin(playerModel.GetPlayerTwoTeamType());
       if (isGameDraw)
       {
         dispatcher.Dispatch(GameEvents.Draw);

@@ -34,7 +34,8 @@ namespace Runtime.Context.Game.Scripts.View.GameMenu
 
     private void OnDraw()
     {
-      view.SetOrderLabel("Draw", string.Empty);
+      view.DisableOrderLabel();
+      view.SetDrawLabel("Draw!");
     }
 
     private void OnGameBoardChanged()

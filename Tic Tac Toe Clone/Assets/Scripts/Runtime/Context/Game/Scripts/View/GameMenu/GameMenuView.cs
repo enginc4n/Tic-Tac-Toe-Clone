@@ -11,9 +11,6 @@ namespace Runtime.Context.Game.Scripts.View.GameMenu
     [SerializeField]
     private GameObject container;
 
-    [SerializeField]
-    private GameObject gameBoardContainer;
-
     [Header("Player One")]
     [SerializeField]
     private TextMeshProUGUI playerOneNameLabel;
@@ -37,6 +34,9 @@ namespace Runtime.Context.Game.Scripts.View.GameMenu
     [Header("Labels")]
     [SerializeField]
     private TextMeshProUGUI orderLabel;
+
+    [SerializeField]
+    private TextMeshProUGUI drawLabel;
 
     public void ToggleGameMenuPanel(bool isActive)
     {
@@ -67,14 +67,19 @@ namespace Runtime.Context.Game.Scripts.View.GameMenu
       ShowPlayerTeamTypes(playerOneTeamType, playerTwoTeamType);
     }
 
-    public Transform GetGameBoardContainerTransform()
-    {
-      return gameBoardContainer.transform;
-    }
-
     public void SetOrderLabel(string playerName, string label = "'s Turn")
     {
       orderLabel.text = playerName + label;
+    }
+
+    public void SetDrawLabel(string label)
+    {
+      drawLabel.text = label;
+    }
+
+    public void DisableOrderLabel()
+    {
+      orderLabel.gameObject.SetActive(false);
     }
   }
 }

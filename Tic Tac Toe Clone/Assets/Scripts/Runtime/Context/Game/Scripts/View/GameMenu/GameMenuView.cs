@@ -77,9 +77,9 @@ namespace Runtime.Context.Game.Scripts.View.GameMenu
       drawLabel.text = label;
     }
 
-    public void DisableOrderLabel()
+    public void SetOrderLabelActive(bool isActive)
     {
-      orderLabel.gameObject.SetActive(false);
+      orderLabel.gameObject.SetActive(isActive);
     }
   }
 }

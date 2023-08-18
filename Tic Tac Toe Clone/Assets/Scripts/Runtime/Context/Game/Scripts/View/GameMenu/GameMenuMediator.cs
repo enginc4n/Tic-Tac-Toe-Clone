@@ -30,11 +30,13 @@ namespace Runtime.Context.Game.Scripts.View.GameMenu
     {
       view.SetOrderLabel(string.Empty, string.Empty);
       view.ToggleGameMenuPanel(false);
+      view.SetOrderLabelActive(true);
+      view.SetDrawLabel(string.Empty);
     }
 
     private void OnDraw()
     {
-      view.DisableOrderLabel();
+      view.SetOrderLabelActive(false);
       view.SetDrawLabel("Draw!");
     }
 

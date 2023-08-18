@@ -10,7 +10,7 @@ namespace Runtime.Context.Game.Scripts.Models.Game
     [Inject(ContextKeys.CONTEXT_DISPATCHER)]
     public IEventDispatcher dispatcher { get; set; }
 
-    public int turn { get; set; } = 0;
+    public int turn { get; set; }
     public bool isGameFinished { get; set; }
 
     private Dictionary<string, TeamType> _cellMap;
